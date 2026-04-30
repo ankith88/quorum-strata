@@ -705,11 +705,12 @@
     <h2>Join the design partner waitlist.</h2>
     <p>Quorum is in active validation with Australian strata committees and managers. Drop your email and we'll be in touch when there's something worth showing you.</p>
 
-    <form class="signup-form" id="signup-form" action="https://formspree.io/f/REPLACE_WITH_FORMSPREE_ID" method="POST">
+    <form class="signup-form" id="signup-form">
+      <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_KEY">
+      <input type="hidden" name="subject" value="Quorum waitlist — new signup">
+      <input type="hidden" name="from_name" value="Quorum Waitlist">
       <input type="text" name="name" placeholder="Your name" required>
       <input type="email" name="email" placeholder="Your email" required>
-      <input type="hidden" name="role" id="role-field" value="">
-      <input type="hidden" name="_subject" value="Quorum waitlist signup">
       <button type="submit">Request access</button>
     </form>
 
@@ -728,33 +729,34 @@
 </footer>
 
 <script>
-  // Form submission with graceful fallback
   document.getElementById('signup-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     const form = e.target;
+    const btn = form.querySelector('button[type=submit]');
     const success = document.getElementById('signup-success');
     const data = new FormData(form);
 
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
     try {
-      const response = await fetch(form.action, {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
+        body: data
       });
-      if (response.ok) {
+      const json = await response.json();
+      if (json.success) {
         form.classList.add('hide');
         success.classList.add('show');
       } else {
-        // If Formspree not configured yet, still show success and log locally
-        console.warn('Form endpoint not configured. Captured:', Object.fromEntries(data));
-        form.classList.add('hide');
-        success.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = 'Request access';
+        alert('Something went wrong — please try again.');
       }
     } catch (err) {
-      // Network error — still show success locally so page feels responsive
-      console.warn('Network error, captured locally:', Object.fromEntries(data));
-      form.classList.add('hide');
-      success.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Request access';
+      alert('Network error — please check your connection and try again.');
     }
   });
 </script>
