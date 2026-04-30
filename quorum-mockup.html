@@ -62,7 +62,17 @@ ul { list-style: none; }
   position: sticky;
   top: 0;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-scroll {
+  flex: 1;
   overflow-y: auto;
+  margin: 0 -18px;
+  padding: 0 18px;
+  min-height: 0;
 }
 
 .brand {
@@ -171,15 +181,14 @@ ul { list-style: none; }
 .badge-accent { background: var(--accent-soft); color: var(--accent); }
 
 .user-card {
-  position: absolute;
-  bottom: 18px;
-  left: 18px;
-  right: 18px;
-  padding: 10px 12px;
+  flex-shrink: 0;
+  margin-top: 16px;
+  padding: 14px 12px 4px;
   border-top: 1px solid var(--hair);
   display: flex;
   align-items: center;
   gap: 10px;
+  background: var(--surface);
 }
 .avatar {
   width: 28px; height: 28px;
@@ -1435,28 +1444,32 @@ ul { list-style: none; }
 /* QR display */
 .qr-section {
   display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 24px;
+  grid-template-columns: 180px 1fr;
+  gap: 28px;
   background: var(--surface);
   border: 1px solid var(--hair);
   border-radius: 6px;
   padding: 24px;
   margin-bottom: 20px;
+  align-items: center;
 }
 .qr-display {
   background: var(--surface-warm);
   border: 1px solid var(--hair);
   border-radius: 8px;
-  padding: 16px;
+  padding: 14px;
   text-align: center;
+  width: 180px;
 }
 .qr-svg {
   width: 100%;
+  max-width: 152px;
   height: auto;
   display: block;
+  margin: 0 auto;
   background: white;
   border-radius: 4px;
-  padding: 8px;
+  padding: 6px;
 }
 .qr-label {
   font-family: var(--mono);
@@ -1974,7 +1987,7 @@ ul { list-style: none; }
   border-color: var(--ink);
 }
 
-
+@media (max-width: 960px) {
   .contractor-stats { grid-template-columns: 1fr 1fr; }
   .pie-layout { grid-template-columns: 1fr; }
   .qr-section { grid-template-columns: 1fr; }
@@ -2040,6 +2053,7 @@ ul { list-style: none; }
       <span class="brand-pro">strata</span>
     </div>
 
+    <div class="sidebar-scroll">
     <div class="scheme-card">
       <div class="scheme-label">Active scheme</div>
       <div class="scheme-name">1–11 Bonner Ave, Manly</div>
@@ -2111,6 +2125,7 @@ ul { list-style: none; }
         <span class="label"><span class="icon">⊕</span> Owners &amp; tenants</span>
       </div>
     </div>
+    </div><!-- /.sidebar-scroll -->
 
     <div class="user-card">
       <div class="avatar">CB</div>
